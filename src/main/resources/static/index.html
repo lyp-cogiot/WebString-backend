@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="container">
+    输入的字符串: <input type="text" v-model="string">
+    <button @click="sendMessage" type="submit">提交</button>
+    <p>{{ message }}</p>
+    </div>
+    <script type="text/javascript">
+    var container = new Vue({
+        el:"#container",
+        data : {
+            string:'',
+            message:''
+        },
+        methods:{
+            sendMessage:function(){
+                var vm = this
+                axios.post('/getWebString',{
+                "webString":vm.string
+                })
+                .then(function (response) {
+                    console.log(response)
+                    console.log(JSON.stringify(response))
+                    vm.message=response["data"]["webString"]
+
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+        }
+    })
+    </script>
+</body>
+</html>
